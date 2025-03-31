@@ -66,34 +66,34 @@ def setup_sidebar(configs: Dict[str, Any]) -> tuple[str, str, bool, str, str]:
         "Choose Region",
         configs["regions"],
         index=0,
-        on_change=on_region_change,
+        disabled=True,
         key="selected_region"
     )
     
     available_models = list(configs["multimodal_llms"][selected_region].keys())
     selected_model = st.sidebar.selectbox(
-        "Choose Bedrock model", available_models, index=1
+        "AI Model", available_models, index=1, disabled=True
     )
     
     is_image_model = "Nova Canvas" in selected_model
     is_video_model = "Nova Reel" in selected_model
+    
+    kb_selection = (
+        st.sidebar.selectbox(
+            "Knowledge base",
+            list(st.session_state.all_kbs.keys()),
+            index=0,
+            disabled=True,
+        )
+        if not (is_image_model or is_video_model)
+        else "None"
+    )
     
     streaming_on = (
         st.sidebar.toggle("Streaming", value=True)
         if not (is_image_model or is_video_model)
         else False
     )
-    
-    kb_selection = (
-        st.sidebar.selectbox(
-            "Choose a Knowledge base",
-            ["None"] + list(st.session_state.all_kbs.keys()),
-            index=0
-        )
-        if not (is_image_model or is_video_model)
-        else "None"
-    )
-    
     s3_uri = None
     if is_video_model:
         account_id = boto3.client('sts').get_caller_identity().get('Account')
@@ -109,7 +109,7 @@ def setup_sidebar(configs: Dict[str, Any]) -> tuple[str, str, bool, str, str]:
     elif is_image_model:
         st.session_state.uploaded_files = st.sidebar.file_uploader("Supported file types are .png, .jpeg", accept_multiple_files=True)
     else:
-        st.session_state.uploaded_files = st.sidebar.file_uploader("Upload a file", accept_multiple_files=True)
+        st.session_state.uploaded_files = None  # Remove file uploader for other models
     st.sidebar.button("New Chat", on_click=clear_screen, type="primary")
     
     return selected_region, selected_model, streaming_on, kb_selection, s3_uri

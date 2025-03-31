@@ -1,6 +1,6 @@
 {
-    "page_title": "Bedrock KnowledgeBases with Multimodal LLMs",
-    "start_message": "I am a GenAI powered chatbot, how can I help you?",
+    "page_title": "CvZense ZenBot",
+    "start_message": "I am a GenAI powered ZenBot, how can I help you?",
     "bedrock_region": "eu-north-1",
     "claude_model_params": {
         "anthropic_version": "bedrock-2023-05-31",

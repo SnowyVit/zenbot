@@ -252,12 +252,19 @@ class KBHandler:
         """Retrieve relevant documents from the knowledge base."""
         if not self.kb_id:
             return []
-        
-        return self.client.retrieve(
+        # Extract the current URL from the browser using Streamlit
+        s3_uri_prefix = st.query_params['prefix']
+        retrieval_results = self.client.retrieve(
             retrievalQuery={"text": prompt},
             knowledgeBaseId=self.kb_id,
             retrievalConfiguration=self.params,
         )["retrievalResults"]
+        if s3_uri_prefix:
+            retrieval_results = [
+                result for result in retrieval_results
+                if s3_uri_prefix in result["metadata"]["x-amz-bedrock-kb-source-uri"]
+            ]
+        return retrieval_results
 
     @staticmethod
     def parse_kb_output_to_string(docs: List[Dict[str, Any]]) -> str:
