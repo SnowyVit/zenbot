@@ -116,7 +116,7 @@ def setup_sidebar(configs: Dict[str, Any]) -> tuple[str, str, bool, str, str]:
 
 def main():
     """Main application logic."""
-    st.set_page_config(page_title=configs["page_title"])
+    st.set_page_config(page_title=configs["page_title"], page_icon=configs["page_icon"])
     
     if 'selected_region' not in st.session_state:
         st.session_state.selected_region = "Stockholm"
@@ -179,7 +179,7 @@ def main():
         st.session_state.bedrock_messages = []
 
     for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
+        with st.chat_message(message["role"], avatar=configs["bot_avatar"] if message["role"] == "assistant" else None):
             if isinstance(message["content"], dict):
                 if "text" in message["content"]:
                     st.write(message["content"]["text"])
@@ -216,7 +216,7 @@ def main():
             
         st.session_state.bedrock_messages.append(user_msg)
         
-        with st.chat_message("assistant"):
+        with st.chat_message("assistant", avatar=configs["bot_avatar"]):
             if "nova-canvas" in model_id:
                 handle_image_generation(bedrock_handler, st.session_state.bedrock_messages)
             elif "nova-reel" in model_id:

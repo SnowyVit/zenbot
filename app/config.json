@@ -1,5 +1,7 @@
 {
     "page_title": "CvZense ZenBot",
+    "page_icon": "app/favicon.ico",
+    "bot_avatar": "app/bot-avatar.png",
     "start_message": "I am a GenAI powered ZenBot, how can I help you?",
     "bedrock_region": "eu-north-1",
     "claude_model_params": {
