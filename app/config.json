@@ -2,7 +2,7 @@
     "page_title": "CvZense ZenBot",
     "page_icon": "app/favicon.ico",
     "bot_avatar": "app/bot-avatar.png",
-    "start_message": "I am a GenAI powered ZenBot, how can I help you?",
+    "start_message": "**Hello! I am ZenBot** 🍵🤖\n\n If you have any questions about the candidate, whether it's about their software skills, educational background, or anything else—feel free to ask! I'm here to help. 😊",
     "bedrock_region": "eu-north-1",
     "claude_model_params": {
         "anthropic_version": "bedrock-2023-05-31",
